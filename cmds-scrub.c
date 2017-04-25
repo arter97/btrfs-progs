@@ -1520,7 +1520,11 @@ static int scrub_start(int argc, char **argv, int resume)
 	}
 
 	/* check for errors returned from the progress thread itself */
-	if (do_print && terr && terr != PTHREAD_CANCELED)
+	if (do_print && terr
+#ifndef __ANDROID__
+		 && terr != PTHREAD_CANCELED
+#endif
+		)
 		error("recording progress failed: %s",
 			strerror(-PTR_ERR(terr)));
 

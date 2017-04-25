@@ -887,12 +887,17 @@ static int scan_devices(struct recover_control *rc)
 		for (i = 0; i < devidx; i++) {
 			if (dev_scans[i].bytenr == -1)
 				continue;
+#ifdef __ANDROID__
+			ret = pthread_join(t_scans[i],
+						 (void **)&t_rets[i]);
+#else
 			ret = pthread_tryjoin_np(t_scans[i],
 						 (void **)&t_rets[i]);
 			if (ret == EBUSY) {
 				all_done = 0;
 				continue;
 			}
+#endif
 			if (ret || t_rets[i]) {
 				ret = 1;
 				goto out1;

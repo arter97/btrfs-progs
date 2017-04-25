@@ -40,6 +40,7 @@
 #include <getopt.h>
 
 #include "kerncompat.h"
+#include "androidcompat.h"
 #include "radix-tree.h"
 #include "ctree.h"
 #include "disk-io.h"
@@ -260,6 +261,9 @@ out:
 
 static int btrfs_wipe_existing_sb(int fd)
 {
+#ifdef __ANDROID__
+	return 0;
+#else
 	const char *off = NULL;
 	size_t len = 0;
 	loff_t offset;
@@ -307,6 +311,7 @@ static int btrfs_wipe_existing_sb(int fd)
 out:
 	blkid_free_probe(pr);
 	return ret;
+#endif
 }
 
 int btrfs_prepare_device(int fd, const char *file, u64 *block_count_ret,

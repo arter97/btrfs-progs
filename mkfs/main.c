@@ -1151,6 +1151,9 @@ static int zero_output_file(int out_fd, u64 size)
 
 static int is_ssd(const char *file)
 {
+#ifdef __ANDROID__
+	return 1;
+#else
 	blkid_probe probe;
 	char wholedisk[PATH_MAX];
 	char sysfs_path[PATH_MAX];
@@ -1195,6 +1198,7 @@ static int is_ssd(const char *file)
 	close(fd);
 
 	return rotational == '0';
+#endif
 }
 
 static int _cmp_device_by_id(void *priv, struct list_head *a,

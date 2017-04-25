@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "androidcompat.h"
 #include "task-utils.h"
 
 struct task_info *task_init(void *(*threadfn)(void *), int (*postfn)(void *),

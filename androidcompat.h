@@ -7,7 +7,7 @@
 #ifndef __ANDROID_H__
 #define __ANDROID_H__
 
-#ifdef ANDROID
+#ifdef __ANDROID__
 
 #define pthread_setcanceltype(type, oldtype)	(0)
 #define pthread_setcancelstate(state, oldstate)	(0)
